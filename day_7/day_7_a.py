@@ -65,7 +65,7 @@ def special_case(code, new_code, i, input_val):
     return new_code, next_opcode, input_val
 
 
-def decoder(new_code, i, input_val):
+def decoder(new_code, i, input_val, phase):
     code = new_code[i]
     print(code)
     if code == 99:
@@ -84,6 +84,7 @@ def decoder(new_code, i, input_val):
         next_opcode = i + 4
 
     elif code == 3:
+        #TODO add phase here
         new_code = output_mode(new_code[i+1], new_code, input_val)
         next_opcode = i + 2
 
@@ -122,13 +123,14 @@ def decoder(new_code, i, input_val):
     return new_code, input_val
 
 input_val = int(sys.argv[2])
+phase = int(sys.argv[3])
 with open(sys.argv[1]) as f:
     for line in f:
         intcode = line.rstrip().split(',')
         intcode = [int(i) for i in intcode]
         print(intcode)
         print(len(intcode))
-        new_code, input_val = decoder(intcode, 0, input_val)
+        new_code, input_val = decoder(intcode, 0, input_val, phase)
         print(new_code)
         print(input_val)
 
