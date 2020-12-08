@@ -1,0 +1,2 @@
+"asdf\\x12asdff"
+"asdf\\\\x12asdff"
