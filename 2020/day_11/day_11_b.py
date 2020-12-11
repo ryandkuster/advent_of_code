@@ -19,24 +19,38 @@ def update_grid(grid):
             if grid[y][x] == '.':
                 continue
 
-            tl = grid[y-1][x-1] if x-1 in range(0, xmax) and y-1 in range(0, ymax) else '0'
-            tm = grid[y-1][x] if x in range(0, xmax) and y-1 in range(0, ymax) else '0'
-            tr = grid[y-1][x+1] if x+1 in range(0, xmax) and y-1 in range(0, ymax) else '0'
-            ml = grid[y][x-1] if x-1 in range(0, xmax) and y in range(0, ymax) else '0'
-            mr = grid[y][x+1] if x+1 in range(0, xmax) and y in range(0, ymax) else '0'
-            bl = grid[y+1][x-1] if x-1 in range(0, xmax) and y+1 in range(0, ymax) else '0'
-            bm = grid[y+1][x] if x in range(0, xmax) and y+1 in range(0, ymax) else '0'
-            br = grid[y+1][x+1] if x+1 in range(0, xmax) and y+1 in range(0, ymax) else '0'
+            tl = traverse(grid, xmax, ymax, x, y, -1, -1)
+            tm = traverse(grid, xmax, ymax, x, y, 0, -1)
+            tr = traverse(grid, xmax, ymax, x, y, 1, -1)
+            ml = traverse(grid, xmax, ymax, x, y, -1, 0)
+            mr = traverse(grid, xmax, ymax, x, y, 1, 0)
+            bl = traverse(grid, xmax, ymax, x, y, -1, 1)
+            bm = traverse(grid, xmax, ymax, x, y, 0, 1)
+            br = traverse(grid, xmax, ymax, x, y, 1, 1)
             adjacent = tl + tm + tr + ml + mr + bl + bm + br
 
             if grid[y][x] == 'L' and adjacent.count('#') == 0:
                 new_grid[y][x] = '#'
 
-            if grid[y][x] == '#' and adjacent.count('#') >= 4:
+            if grid[y][x] == '#' and adjacent.count('#') >= 5:
                 new_grid[y][x] = 'L'
 
     stable = True if np.array_equal(grid, new_grid) else False
     return new_grid, stable
+
+
+def traverse(grid, xmax, ymax, xpos, ypos, xchange, ychange):
+    xpos += xchange
+    ypos += ychange
+    while xpos in range(0, xmax) and ypos in range(0, ymax):
+        target = grid[ypos][xpos]
+        if target == '#':
+            return '#'
+        elif target == 'L':
+            return 'L'
+        xpos += xchange
+        ypos += ychange
+    return '0'
 
 
 if __name__ == '__main__':
