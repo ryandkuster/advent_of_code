@@ -2,7 +2,7 @@ import sys
 
 
 def makin_a_list(the_list):
-    for i in range(2020-len(the_list)):
+    for i in range(30000000-len(the_list)):
         if the_list[-1] not in the_list[:-1]:
             the_list.append(0)
         else:
